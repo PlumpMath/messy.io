@@ -32,5 +32,5 @@ def get_node_status(node_name=None):
 
 if __name__ == "__main__":
     isy_setup()
-    app.run()
+    app.run(port=5001)
 
