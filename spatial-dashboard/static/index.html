@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great|Poiret+One" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.2.3/showdown.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.4.0/lodash.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 <script>
@@ -27,27 +28,25 @@ $(function() {
 	//JAVASCRIPT HERE
 });
 
-var api_status_url = "http://192.168.1.72/rest/status/";
-var devices = ['ZW002_1'];
+var api_status_url = "http://vps.provolot.com:5002/rest/status/";
+var proximity_sensor_devices = ['ZW002_1'];
 
-_.each(devices, function(dev) {
-    var dev_url = api_status_url + dev;
-    console.log(dev_url);
+_.each(proximity_sensor_devices, function(device) {
+    var device_url = api_status_url + device;
+
+	$.getJSON( device_url, function( data ) {
+		if(data > 50) {
+			console.log("yeah");
+			$("." + device).addClass("on");
+		} else {
+			console.log("boo");
+			$("." + device).addClass("off");
+		}
+	});
+    console.log(device_url);
 });
 
-var ISY = require('isy-js');
 
-var citibike_api = "https://feeds.citibikenyc.com/stations/stations.json";
-$.get(citibike_api, function(data) {
-    console.log(_.find(citibike_api['stationBeanList'], ['id', 423]));
-
- $.ajax({
-        url: citibike_api,
-        dataType: 'jsonp',
-        jsonpCallback: 'photos',
-        jsonp: false,
-  });
-});
 
 </script>
 
@@ -56,6 +55,8 @@ $.get(citibike_api, function(data) {
 body {
 	margin: 0px;
 	padding: 0px;
+font-family: 'Poiret One', cursive;
+
 	height: 100%;
 }
 .flexcontainer {
@@ -67,6 +68,10 @@ body {
 }
 
 .centerdiv {
+}
+
+.device.on {
+	fill: #DF389E;
 }
 
 </style>
@@ -83,20 +88,9 @@ CUSTOMIZE BELOW
 <body>
 <div class="flexcontainer">
 	<div class="centerdiv">
-<svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
- <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
- <g>
-  <title>background</title>
-  <rect fill="#fff" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
-  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
-   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
-  </g>
- </g>
- <g>
-  <title>Layer 1</title>
-  <path id="svg_1" d="m128.5,252l103.5,-170l65,76l102,-60l-78,112l90,-24l-78,67l96,25l-139,45l-36,-93l-41,97l-84.5,-75z" stroke-width="7" stroke="#56ffff" fill="none"/>
- </g>
-</svg>
+
+<svg width="580" height="400" xmlns="http://www.w3.org/2000/svg"><path id="svg_1" class="device ZW002_1" d="m128.5,252l103.5,-170l65,76l102,-60l-78,112l90,-24l-78,67l96,25l-139,45l-36,-93l-41,97l-84.5,-75z" stroke-width="7" stroke="#56ffff" fill="none"/></svg>
+<h2>Is someone in the PPNY classroom?</h2>
 
 	</div>
 </div>
