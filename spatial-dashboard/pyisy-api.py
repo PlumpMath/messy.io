@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import PyISY
+from slacker import Slacker
 import json
 from flask import Flask
 app = Flask(__name__, static_folder='static', static_url_path='')
@@ -15,6 +16,19 @@ def isy_setup():
 
     isy.auto_update = True
     return isy
+
+def notify(e):
+    print('Notification Received')
+
+def add_handlers()
+    devices = ['ZW002_1'] 
+    for d in devices:
+        try:
+            node = isy.nodes[d]
+            handler = node.status.subscribe('changed', notify)
+        except Exception:
+            pass
+
 
 @app.route('/')
 def root():
