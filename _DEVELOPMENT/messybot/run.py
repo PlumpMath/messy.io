@@ -5,6 +5,7 @@ from slackbot.bot import default_reply
 import re, datetime
 import logging
 from lib.singleton import Messybot
+from lib.isyclient import IsyClient
 
 
 
@@ -20,11 +21,11 @@ def main(db_location):
     #singletonclass
     messybot = Messybot()
 
-	
     # TODO: Database connection
-    # TODO: start zwave
-    # TODO: The slackbot itself
+    # TODO: start isy client
+    messybot.isyclient = IsyClient(messybot.settings)
 
+    # TODO: The slackbot itself
 
     messybot.bot = Bot()
     messybot.bot.run()
