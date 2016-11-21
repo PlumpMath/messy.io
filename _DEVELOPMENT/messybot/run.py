@@ -6,6 +6,7 @@ import re, datetime
 import logging
 from lib.singleton import Messybot
 from lib.isyclient import IsyClient
+import slackbot_settings
 
 
 
@@ -23,7 +24,7 @@ def main(db_location):
 
     # TODO: Database connection
     # TODO: start isy client
-    messybot.isyclient = IsyClient() #TODO: pass settings as constructor arg
+    messybot.isyclient = IsyClient(slackbot_settings) #TODO: pass settings as constructor arg
 
     # TODO: The slackbot itself
 

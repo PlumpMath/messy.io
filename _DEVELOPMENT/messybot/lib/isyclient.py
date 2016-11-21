@@ -1,33 +1,29 @@
 import PyISY
+import slackbot_settings
 
 class IsyClient:
-    def __init__(self):
+    def __init__(self, settings):
 
-        f = open('plugins/PyISY.settings.txt', 'r')
-        self.ADDR = f.readline().strip()
-        self.PORT = f.readline().strip()
-        self.USER = f.readline().strip()
-        self.PASS = f.readline().strip()
-        f.close()
-
-        print self.ADDR, self.PORT
-
+        self.ADDR = settings.PYISY_ADDR
+        self.PORT = settings.PYISY_PORT
+        self.USER = settings.PYISY_USER
+        self.PASS = settings.PYISY_PASS
         self.login()
 
 
     def login(self):
         print "logging in to ISY..."
-        self.session = PyISY.ISY(self.ADDR, self.PORT, self.USER, self.PASS)
+        self.client = PyISY.ISY(self.ADDR, self.PORT, self.USER, self.PASS)
 
     def getStatus(self):
-        return self.session.connected
+        return self.client.connected
 
     def setNode(self, nid, on=True):
         if(on):
-            self.session.nodes[nid].on()
+            self.client.nodes[nid].on()
         else:
-            self.session.nodes[nid].off()
-        
+            self.client.nodes[nid].off()
         
 
+    
 
