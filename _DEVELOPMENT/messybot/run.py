@@ -23,7 +23,7 @@ def main(db_location):
 
     # TODO: Database connection
     # TODO: start isy client
-    messybot.isyclient = IsyClient(messybot.settings)
+    messybot.isyclient = IsyClient() #TODO: pass settings as constructor arg
 
     # TODO: The slackbot itself
 
