@@ -11,12 +11,12 @@ def zwavestatus(message):
 
 @listen_to('runteston', re.IGNORECASE)
 def runteston(message):
-    messybot.isyclient.session.programs['0003'].runThen()
+    messybot.isyclient.client.programs['0003'].runThen()
     message.reply("ranThen program 0003!")
 
 @listen_to('runtestoff', re.IGNORECASE)
 def runtestoff(message):
-    messybot.isyclient.session.programs['0003'].runElse()
+    messybot.isyclient.client.programs['0003'].runElse()
     message.reply("ranElse program 0003!")
 
 
