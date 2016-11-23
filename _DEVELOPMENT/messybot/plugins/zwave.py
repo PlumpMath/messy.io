@@ -20,7 +20,7 @@ def runtestoff(message):
     messybot.isyclient.isy.programs['0003'].runElse()
     message.reply("ranElse program 0003!")
 
-@respond_to('unlock.*door', re.IGNORECASE)
+@listen_to('unlock.*door', re.IGNORECASE)
 def unlockdoor(message):
     # Message is replied to the sender (prefixed with @user)
     timedelay = 5
