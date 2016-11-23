@@ -12,7 +12,7 @@ class IsyClient:
 
 
     def login(self):
-        print "logging in to ISY..."
+        print( "logging in to ISY...")
         self.client = PyISY.ISY(self.ADDR, self.PORT, self.USER, self.PASS)
 
     def getStatus(self):
