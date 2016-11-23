@@ -11,19 +11,19 @@ def zwavestatus(message):
 
 @listen_to('runteston', re.IGNORECASE)
 def runteston(message):
-    messybot.isyclient.client.programs['0003'].runThen()
+    messybot.isyclient.isy.programs['0003'].runThen()
     message.reply("ranThen program 0003!")
 
 @listen_to('runtestoff', re.IGNORECASE)
 def runtestoff(message):
-    messybot.isyclient.client.programs['0003'].runElse()
+    messybot.isyclient.isy.programs['0003'].runElse()
     message.reply("ranElse program 0003!")
 
-
-@respond_to('unlock', re.IGNORECASE)
+@respond_to('unlock.*door', re.IGNORECASE)
 def unlockdoor(message):
     # Message is replied to the sender (prefixed with @user)
     message.reply("Okay! I'll unlock the door for the next 10 seconds.")
+    messybot.
 
 
 

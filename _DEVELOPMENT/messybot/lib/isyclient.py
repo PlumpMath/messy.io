@@ -13,16 +13,16 @@ class IsyClient:
 
     def login(self):
         print( "logging in to ISY...")
-        self.client = PyISY.ISY(self.ADDR, self.PORT, self.USER, self.PASS)
+        self.isy = PyISY.ISY(self.ADDR, self.PORT, self.USER, self.PASS)
 
     def getStatus(self):
-        return self.client.connected
+        return self.isy.connected
 
     def setNode(self, nid, on=True):
         if(on):
-            self.client.nodes[nid].on()
+            self.isy.nodes[nid].on()
         else:
-            self.client.nodes[nid].off()
+            self.isy.nodes[nid].off()
         
 
     

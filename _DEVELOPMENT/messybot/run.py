@@ -13,7 +13,6 @@ import slackbot_settings
 def my_default_handler(message):
     message.reply("Sorry, but I didn't understand you")
 
-
 def main(db_location):
 
     logging.basicConfig()
@@ -22,6 +21,11 @@ def main(db_location):
     messybot = Messybot()
 
     # TODO: Database connection
+# TODO: something like   messybot.db = sqlite3.connect(db_location, check_same_thread=False)
+
+    # TODO: other integrations
+#    messybot.sonos = Sonos(slackbot_settings) ETC ETC
+
     # TODO: start isy client
     messybot.isyclient = IsyClient(slackbot_settings) #TODO: pass settings as constructor arg
 
