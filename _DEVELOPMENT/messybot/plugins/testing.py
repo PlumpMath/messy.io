@@ -32,13 +32,6 @@ def omg(message):
     # Message is sent on the channel
     # message.send('I can help everybody!')
 
-@respond_to('unlock', re.IGNORECASE)
-def unlockdoor(message):
-    # Message is replied to the sender (prefixed with @user)
-    message.reply("Okay! I'll unlock the door for the next 10 seconds.")
-
-    # Message is sent on the channel
-    # message.send('I can help everybody!')
 
 @respond_to('respondtime', re.IGNORECASE)
 def respondtime(message):

@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, '/Users/provolot/github/PyISY')
 import PyISY
 import slackbot_settings
 

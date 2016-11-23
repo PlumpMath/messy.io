@@ -2,6 +2,7 @@ from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 import re
 from lib.singleton import Messybot
+import time
 
 messybot = Messybot()
 
@@ -22,8 +23,11 @@ def runtestoff(message):
 @respond_to('unlock.*door', re.IGNORECASE)
 def unlockdoor(message):
     # Message is replied to the sender (prefixed with @user)
-    message.reply("Okay! I'll unlock the door for the next 10 seconds.")
-    messybot.
+    timedelay = 5
+    message.reply("Okay! I'll unlock the door for the next " + str(timedelay) + " seconds.")
+    messybot.isyclient.isy.nodes['ZW017_1'].on()
+    time.sleep(timedelay)
+    messybot.isyclient.isy.nodes['ZW017_1'].off()
 
 
 
