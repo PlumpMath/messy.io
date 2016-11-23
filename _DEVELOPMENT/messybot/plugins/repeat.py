@@ -4,6 +4,6 @@ import re
 
 @listen_to('repeat', re.IGNORECASE)
 def repeat(message):
-    print message
+    print(message)
     message.reply('repeatrepeat')
 
