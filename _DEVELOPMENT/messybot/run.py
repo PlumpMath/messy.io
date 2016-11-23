@@ -9,7 +9,6 @@ from lib.isyclient import IsyClient
 import slackbot_settings
 
 
-
 @default_reply
 def my_default_handler(message):
     message.reply("Sorry, but I didn't understand you")
