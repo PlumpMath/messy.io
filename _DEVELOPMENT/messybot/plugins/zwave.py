@@ -10,15 +10,15 @@ messybot = Messybot()
 def zwavestatus(message):
     message.reply("Zwave status: " + str(messybot.isyclient.getStatus()))
 
-@listen_to('runteston', re.IGNORECASE)
+@listen_to('all.*on', re.IGNORECASE)
 def runteston(message):
+    message.reply("lights all on - ranThen program 0003!")
     messybot.isyclient.isy.programs['0003'].runThen()
-    message.reply("ranThen program 0003!")
 
-@listen_to('runtestoff', re.IGNORECASE)
+@listen_to('all.*off', re.IGNORECASE)
 def runtestoff(message):
+    message.reply("lights all off - ranElse program 0003!")
     messybot.isyclient.isy.programs['0003'].runElse()
-    message.reply("ranElse program 0003!")
 
 @listen_to('unlock.*door', re.IGNORECASE)
 def unlockdoor(message):
@@ -28,6 +28,7 @@ def unlockdoor(message):
     messybot.isyclient.isy.nodes['ZW017_1'].on()
     time.sleep(timedelay)
     messybot.isyclient.isy.nodes['ZW017_1'].off()
+    message.reply("Door locked again!")
 
 
 
