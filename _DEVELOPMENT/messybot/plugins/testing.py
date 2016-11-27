@@ -4,22 +4,6 @@ from slackbot.bot import idle
 import re
 import time
 
-last_bored = time.time()
-@idle
-def bored(client):
-    global last_bored
-    if time.time() - last_bored >= 5:
-        last_bored = time.time()
-        
-        # Messages can be sent to a channel
-        client.rtm_send_message(slackbot_settings.MAIN_CHANNEL, "I'm bored!")
-        
-        # If a name is ambiguous:
-#        client.rtm_send_message(client.find_channel_by_name('ambiguous'), "To ambiguous the channel")
-#        client.rtm_send_message(client.find_user_by_name('ambiguous'), "To ambiguous the user")
-        
-        # Attachments can be sent with `client.rtm_send_message(..., attachments=attachments)`.
-
 @respond_to('stat$', re.IGNORECASE)
 @respond_to('stat (.*) (.*)', re.IGNORECASE)
 def stats(message, start_date=None, end_date=None):
