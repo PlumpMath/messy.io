@@ -1,36 +1,32 @@
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
+from slackbot.bot import idle
 import re
+import time
 
-@respond_to('hi', re.IGNORECASE)
-def hi(message):
-    message.reply('I can understand hi or HI!')
-    # react with thumb up emoji
-    message.react('+1')
+last_bored = time.time()
+@idle
+def bored(client):
+    global last_bored
+    if time.time() - last_bored >= 5:
+        last_bored = time.time()
+        
+        # Messages can be sent to a channel
+        client.rtm_send_message(slackbot_settings.MAIN_CHANNEL, "I'm bored!")
+        
+        # If a name is ambiguous:
+#        client.rtm_send_message(client.find_channel_by_name('ambiguous'), "To ambiguous the channel")
+#        client.rtm_send_message(client.find_user_by_name('ambiguous'), "To ambiguous the user")
+        
+        # Attachments can be sent with `client.rtm_send_message(..., attachments=attachments)`.
 
-@respond_to('I love you')
-def love(message):
-    message.reply('I love you too!')
-
-@listen_to('listen')
-def listen(message):
-    message.reply("... I'm always listening ... ")
-
-@listen_to('Can someone help me?')
-def help(message):
-    # Message is replied to the sender (prefixed with @user)
-    message.reply('Yes, I can!')
-
-    # Message is sent on the channel
-    # message.send('I can help everybody!')
-
-@respond_to('omg')
-def omg(message):
-    # Message is replied to the sender (prefixed with @user)
-    message.reply('oh my god, what?')
-
-    # Message is sent on the channel
-    # message.send('I can help everybody!')
+@respond_to('stat$', re.IGNORECASE)
+@respond_to('stat (.*) (.*)', re.IGNORECASE)
+def stats(message, start_date=None, end_date=None):
+    print("stats!")
+    message.reply("okay stats")
+    message.reply(start_date)
+    message.reply(end_date)
 
 
 @respond_to('respondtime', re.IGNORECASE)

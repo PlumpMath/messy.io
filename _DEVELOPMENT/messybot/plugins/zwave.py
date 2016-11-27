@@ -1,14 +1,20 @@
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
-import re
 from lib.singleton import Messybot
+from lib.isyclient import IsyClient
+import slackbot_secrets
+import re
 import time
+
 
 messybot = Messybot()
 
+if not messybot.has_key('isyclient'):
+    messybot.isyclient = IsyClient(slackbot_secrets)
+
 @listen_to('zwavestatus', re.IGNORECASE)
 def zwavestatus(message):
-    message.reply("Zwave status: " + str(messybot.isyclient.getStatus()))
+    message.reply("Zwave status: " + str(messybot.isyclient.get_status()))
 
 @listen_to('all.*on', re.IGNORECASE)
 def runteston(message):

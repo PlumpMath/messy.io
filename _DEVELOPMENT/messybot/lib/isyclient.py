@@ -1,7 +1,6 @@
 import sys
 sys.path.insert(0, '/Users/provolot/github/PyISY')
 import PyISY
-import slackbot_settings
 
 class IsyClient:
     def __init__(self, settings):
@@ -17,15 +16,15 @@ class IsyClient:
         print( "logging in to ISY...")
         self.isy = PyISY.ISY(self.ADDR, self.PORT, self.USER, self.PASS)
 
-    def getStatus(self):
+    def get_status(self):
         return self.isy.connected
 
-    def setNode(self, nid, on=True):
+    def set_node(self, nid, on=True):
         if(on):
             self.isy.nodes[nid].on()
         else:
             self.isy.nodes[nid].off()
         
 
-    
+   
 

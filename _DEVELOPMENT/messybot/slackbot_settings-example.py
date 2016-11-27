@@ -1,5 +1,6 @@
-API_TOKEN = "TOKEN HERE"
-ERRORS_TO = "username"
+ERRORS_TO = "CHANNEL"
+
+MAIN_CHANNEL = "CHANNEL"
 
 PLUGINS = [
     'plugins.repeat',
@@ -7,8 +8,4 @@ PLUGINS = [
     'plugins.zwave'
 ]
 
-PYISY_ADDR = "123.123.123.123"
-PYISY_PORT = "80"
-PYISY_USER = "useruserexample"
-PYISY_PASS = "passpassexample"
 

@@ -1,5 +1,5 @@
 *.swp
 *.settings.json
-slackbot_settings.py
+slackbot_secrets.py
 .DS_Store
 *.pyc
