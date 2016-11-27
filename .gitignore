@@ -3,3 +3,4 @@
 slackbot_settings.py
 .DS_Store
 *.pyc
+venv/
