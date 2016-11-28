@@ -1,5 +1,6 @@
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
+import lib.phrases as phrases
 import re
 
 
@@ -11,7 +12,7 @@ def hi(message):
 
 @respond_to('I love you')
 def love(message):
-    message.reply('I love you too!')
+    message.reply("I love you too! "+ phrases.compliment() + "!")
 
 @listen_to('listen')
 def listen(message):
@@ -21,4 +22,9 @@ def listen(message):
 def omg(message):
     # Message is replied to the sender (prefixed with @user)
     message.reply("omg, what what what?")
+
+@listen_to('guys')
+def guys(message):
+    # Message is replied to the sender (prefixed with @user)
+    message.reply("oh heyy, did you mean " + phrases.guys_alts() + "?")
 
