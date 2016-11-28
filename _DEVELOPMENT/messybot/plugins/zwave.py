@@ -1,16 +1,12 @@
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 from lib.singleton import Messybot
-from lib.isyclient import IsyClient
-import slackbot_secrets
+import slackbot_settings
 import re
 import time
 
 
 messybot = Messybot()
-
-if not messybot.has_key('isyclient'):
-    messybot.isyclient = IsyClient(slackbot_secrets)
 
 @listen_to('zwavestatus', re.IGNORECASE)
 def zwavestatus(message):

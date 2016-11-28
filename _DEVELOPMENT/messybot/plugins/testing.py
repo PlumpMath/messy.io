@@ -21,3 +21,15 @@ def respondtime(message):
 def listentime(message):
     message.reply("listen: current time =" + str(datetime.datetime.now()))
 
+@respond_to("who?", re.IGNORECASE)
+def who(message):
+    message.reply('I am friendly bot.')
+    details = ""
+    details += "text = '{}'\n".format(message.body["text"])
+    details += "ts = '{}'\n".format(message.body["ts"])
+    details += "user id = '{}'\n".format(message.body["user"])
+    details += "user name = '{}'\n".format(message._client.users.get(message.body["user"])["name"])
+    details += "team id = '{}'\n".format(message.body["team"])
+    details += "type = '{}'\n".format(message.body["type"])
+    details += "channel = '{}'\n".format(message.body["channel"])
+    message.reply('```{}```'.format(details))

@@ -4,11 +4,11 @@ from slackbot.bot import Bot
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 from slackbot.bot import default_reply
-import re, datetime, os
+import re, datetime
 import logging
 from lib.singleton import Messybot
+from lib.isyclient import IsyClient
 import slackbot_settings
-import slackbot_secrets
 
 
 @default_reply
@@ -28,11 +28,9 @@ def main(db_location):
     # TODO: other integrations
     #    messybot.sonos = Sonos(slackbot_settings) ETC ETC
 
+    messybot.isyclient = IsyClient(slackbot_settings)
 
     # TODO: The slackbot itself
-    slackbot_settings.API_TOKEN = slackbot_secrets.API_TOKEN
-
-#    os.environ['API_TOKEN'] = slackbot_secrets.API_TOKEN
 
     messybot.bot = Bot()
     messybot.bot.run()

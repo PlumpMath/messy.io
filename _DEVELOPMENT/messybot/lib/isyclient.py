@@ -1,4 +1,5 @@
 import sys
+sys.path.insert(0, '/home/provolot/_GITHUB/PyISY')
 sys.path.insert(0, '/Users/provolot/github/PyISY')
 import PyISY
 
@@ -24,7 +25,16 @@ class IsyClient:
             self.isy.nodes[nid].on()
         else:
             self.isy.nodes[nid].off()
-        
 
+    def current_temp(self):
+        self.isy.nodes['ZW003_1'].update()
+        return self.isy.nodes['ZW003_1'].status
+
+    @property
+    def heatpoint(self):
+        return self.isy.nodes['ZW003_1'].property('CLISPH')['value']
+    @heatpoint.setter
+    def heatpoint(self, value):
+        return self.isy.nodes['ZW003_1'].property('CLISPH', str(value))
    
 
