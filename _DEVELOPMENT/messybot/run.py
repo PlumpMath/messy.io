@@ -1,5 +1,6 @@
 import sys
 sys.path.insert(0, '/Users/provolot/github/slackbot')
+sys.path.insert(0, '/home/provolot/_GITHUB/slackbot')
 from slackbot.bot import Bot
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
