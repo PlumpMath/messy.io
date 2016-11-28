@@ -10,6 +10,22 @@ DEGREE_SYMBOL = u"\u00b0"
 
 messybot = Messybot()
 
+############
+heat_reaction_warmer = "fire"
+heat_reaction_cooler = "snowman"
+def heat_increment(x):
+    # this could be non-linear
+    inc = round(x * 0.501) # adding the 0.001 because python3 does banker's rounding 
+    return int(inc)
+
+#vote_frequency = 20
+#vote_duration = 10
+vote_frequency = 60 * 60
+vote_duration = 5 * 60 
+
+############
+
+
 def people_num_to_text(n):
     if n < 0:
         return ""
@@ -19,18 +35,23 @@ def people_num_to_text(n):
         return "1 person"
     return str(n) + " people"
 
+def degreeify(deg):
+    return str(deg) + DEGREE_SYMBOL + "F"
+
 def start_vote(client):
     global current_vote_message
 
     current_temp = messybot.isyclient.current_temp()
     heatpoint = messybot.isyclient.heatpoint
 
-    m = "*VOTING TIME!*\n" 
-    m += "Hey @channel! It's *" + str(current_temp) + DEGREE_SYMBOL + "F* on the third floor right now. \n"
-    m += "It's supposed to be at " + str(heatpoint) + DEGREE_SYMBOL + "F. \n"
+    main_channel_id = client.find_channel_by_name(slackbot_settings.TEMPERATURE_CHANNEL)
+
+    m = "*TEMPERATURE VOTING TIME!*\n" 
+    m += "Hey <!channel|channel>! It's *" + degreeify(current_temp) + "* on the third floor right now. \n"
+    m += "It's supposed to be at " + degreeify(heatpoint) + ". \n"
     m += "Do you want the *temperature* to be *warmer* or *cooler*?"
 
-    res = client.send_message(slackbot_settings.MAIN_CHANNEL, m)
+    res = client.send_message(slackbot_settings.TEMPERATURE_CHANNEL, m)
 
     # record vote message so that we can later grab reaction count from it
     current_vote_message = {}
@@ -47,8 +68,8 @@ def close_vote(client):
     res = client.webapi.reactions.get(channel=current_vote_message['channel'], timestamp=current_vote_message['ts'])
     reactions = { r['name']:r for r in res.body['message']['reactions'] }
 
-    tally_warmer = (int(reactions[heat_reaction_warmer]['count'] - 1)
-    tally_cooler = (int(reactions[heat_reaction_cooler]['count'] - 1)
+    tally_warmer = int(reactions[heat_reaction_warmer]['count'] - 1)
+    tally_cooler = int(reactions[heat_reaction_cooler]['count'] - 1)
     heat_diff = heat_increment(tally_warmer - tally_cooler)
 
     current_temp = messybot.isyclient.current_temp()
@@ -66,30 +87,21 @@ def close_vote(client):
         m += "So... We're going to keep the *same temperature*!"
     else:
         d = "up" if heat_diff > 0 else "down"
-        m += "So... We're going to *set the temperature* " + d + " *to " + str(future_heatpoint) + DEGREE_SYMBOL + "*!\n"
-        m += "(each person's vote is 0.5 " + DEGREE_SYMBOL + "F, and then I'll round up to the nearest whole number.)"
+        m += "So... We're going to *set the temperature* " + d + " *to " + degreeify(future_heatpoint) + "*!\n"
+        m += "(Each person's vote is " + degreeify(0.5) + ", and I round up to the nearest whole number.)"
 
         print("SETTING HEATPOINT TO", future_heatpoint)
         messybot.isyclient.heatpoint = future_heatpoint
 
-    client.rtm_send_message(slackbot_settings.MAIN_CHANNEL, m)
+    client.rtm_send_message(slackbot_settings.TEMPERATURE_CHANNEL, m)
 
     current_vote_message = {}
 
 #########
 
-heat_reaction_warmer = "fire"
-heat_reaction_cooler = "snowman"
-def heat_increment(x):
-    # this could be non-linear
-    inc = round(x * 0.501) # adding the 0.001 because python3 does banker's rounding 
-    return int(inc)
 
 current_vote_message = {}
 last_vote = None
-
-vote_frequency = 20
-vote_duration = 10
 
 @idle
 def heat_scheduler(client):
