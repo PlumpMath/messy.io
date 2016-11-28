@@ -5,9 +5,19 @@ import slackbot_settings
 import re
 import time
 from lib.singleton import Messybot
+import lib.phrases as phrases
 DEGREE_SYMBOL = u"\u00b0" 
 
 messybot = Messybot()
+
+def people_num_to_text(n):
+    if n < 0:
+        return ""
+    if n == 0:
+        return "Nobody"
+    if n == 1:
+        return "1 person"
+    return str(n) + " people"
 
 def start_vote(client):
     global current_vote_message
@@ -15,9 +25,10 @@ def start_vote(client):
     current_temp = messybot.isyclient.current_temp()
     heatpoint = messybot.isyclient.heatpoint
 
-    m = "Hey @channel! It's " + str(current_temp) + DEGREE_SYMBOL + "F on the third floor right now. "
-    m += "It's supposed to be at " + str(heatpoint) + DEGREE_SYMBOL + "F. "
-    m += "Do you want the temperature to be warmer or cooler?"
+    m = "*VOTING TIME!*\n" 
+    m += "Hey @channel! It's *" + str(current_temp) + DEGREE_SYMBOL + "F* on the third floor right now. \n"
+    m += "It's supposed to be at " + str(heatpoint) + DEGREE_SYMBOL + "F. \n"
+    m += "Do you want the *temperature* to be *warmer* or *cooler*?"
 
     res = client.send_message(slackbot_settings.MAIN_CHANNEL, m)
 
@@ -36,20 +47,26 @@ def close_vote(client):
     res = client.webapi.reactions.get(channel=current_vote_message['channel'], timestamp=current_vote_message['ts'])
     reactions = { r['name']:r for r in res.body['message']['reactions'] }
 
+    tally_warmer = (int(reactions[heat_reaction_warmer]['count'] - 1)
+    tally_cooler = (int(reactions[heat_reaction_cooler]['count'] - 1)
+    heat_diff = heat_increment(tally_warmer - tally_cooler)
+
     current_temp = messybot.isyclient.current_temp()
-    heat_diff = heat_increment(int(reactions[heat_reaction_warmer]['count']) - int(reactions[heat_reaction_cooler]['count']))
     future_heatpoint = current_temp + heat_diff
 
     tally = ""
-    tally = str(int(reactions[heat_reaction_warmer]['count'] - 1) ) - int(reactions[heat_reaction_cooler]['count'] - 1))
-    emoji_tally = ', '.join([str(r['count'] - 1) + " person(s) wanted '" + r['name'] + "'" for r in res.body['message']['reactions']])
+    if(tally_warmer + tally_cooler == 0):
+        tally += "Nobody voted! Everybody's " + phrases.peachy_keen() + "."
+    else:
+        tally += people_num_to_text(tally_warmer) + " voted to make it warmer. "
+        tally += people_num_to_text(tally_cooler) + " voted to make it cooler. "
 
-    m =  "Vote results: " + emoji_tally + "\n"
+    m =  "Vote results: " + tally + "\n"
     if(heat_diff == 0):
-        m += "So... We're going to keep the same temperature!"
+        m += "So... We're going to keep the *same temperature*!"
     else:
         d = "up" if heat_diff > 0 else "down"
-        m += "So... We're going to change the temperature " + d + ", from " +  str(abs(current_temp)) + DEGREE_SYMBOL + " to " + str(future_heatpoint) + DEGREE_SYMBOL + "\n"
+        m += "So... We're going to *set the temperature* " + d + " *to " + str(future_heatpoint) + DEGREE_SYMBOL + "*!\n"
         m += "(each person's vote is 0.5 " + DEGREE_SYMBOL + "F, and then I'll round up to the nearest whole number.)"
 
         print("SETTING HEATPOINT TO", future_heatpoint)
