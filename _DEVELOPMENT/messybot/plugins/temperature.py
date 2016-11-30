@@ -45,7 +45,7 @@ def start_vote(client):
 
     main_channel_id = client.find_channel_by_name(slackbot_settings.TEMPERATURE_CHANNEL)
 
-    m = "*TEMPERATURE VOTING TIME!*\n" 
+    m = "*=== TEMPERATURE VOTING TIME! ===*\n" 
     m += "Hey <!channel|channel>! It's *" + degreeify(current_temp) + "* on the third floor right now. \n"
     m += "It's supposed to be at " + degreeify(heatpoint) + ". \n"
     m += "Do you want the *temperature* to be *warmer* or *cooler*?"
@@ -87,6 +87,8 @@ def close_vote(client):
         d = "up" if heat_diff > 0 else "down"
         m += "So... We're going to *set the temperature* " + d + " *to " + degreeify(future_heatpoint) + "*!\n"
         m += "(Each person's vote is " + degreeify(0.5) + ", and I round up to the nearest whole number.)"
+
+    m += "*=== temperature voting end! ===*\n" 
 
         print("SETTING HEATPOINT TO", future_heatpoint)
         messybot.isyclient.heatpoint = future_heatpoint
