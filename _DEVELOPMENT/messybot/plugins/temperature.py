@@ -92,7 +92,7 @@ def close_vote(client):
         print("SETTING HEATPOINT TO", future_heatpoint)
         messybot.isyclient.heatpoint = future_heatpoint
 
-    m += "*=== temperature voting end! ===*\n" 
+    m += "\n* === temperature voting end! === *\n" 
     client.rtm_send_message(slackbot_settings.TEMPERATURE_CHANNEL, m)
 
     messybot.current_vote_message = {}
